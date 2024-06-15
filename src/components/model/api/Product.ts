@@ -1,6 +1,6 @@
-import { IProductDetails } from '../../types';
+import { IProductDetails } from '../../../types';
 
-class Product implements IProductDetails
+export class Product implements IProductDetails
 {
 	id: string;
 	description: string;

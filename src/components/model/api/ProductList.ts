@@ -1,6 +1,6 @@
-import { IItemList, IProductDetails } from '../../types';
+import { IItemList, IProductDetails } from '../../../types';
 
-class ProductList<IProductDetails> implements IItemList<IProductDetails> {
+export class ProductList<IProductDetails> implements IItemList<IProductDetails> {
 	total: number;
 	items: IProductDetails[];
 
