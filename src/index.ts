@@ -22,16 +22,20 @@ const order = new Order(events);
 const cart = new Cart(events);
 api.get('/product/').then((resp: ProductList<IProductDetails>) => {
 	resp.items.forEach(product => catalog.addItem(product));
-});
+})
+	.catch(error => {
+		alert('Произошла ошибка при получении данных о продукте');
+		console.error('Произошла ошибка при получении данных о продукте:', error);
+	});
 
 events.on(CatalogEventItemAdded, () => {
 	const view = new CatalogView(document.querySelector('.gallery'));
-	const els = catalog.items.map(
+	const catalogItems = catalog.items.map(
 		product => {
 			return new CatalogItemView(document.getElementById('card-catalog'), events).render({ product });
 		}
 	);
-	view.render({ items: els });
+	view.render({ items: catalogItems });
 });
 
 events.on(CatalogItemOpenEvent, (data:{product: Product}) => {
@@ -70,5 +74,9 @@ events.on(OrderContactsFilled, () => {
 	}).then(() => {
 		const view = new SuccessfulSendingView();
 		view.render({totalAmount: cart.totalAmount})
+	})
+	.catch(error => {
+		alert('Произошла ошибка при создании заказа');
+		console.error('Произошла ошибка при создании заказа:', error);
 	});
 })
