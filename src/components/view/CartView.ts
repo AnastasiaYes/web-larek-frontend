@@ -5,9 +5,8 @@ import { Cart } from '../model/Cart';
 
 export class CartView implements IView {
 	template: HTMLElement;
-	container: HTMLElement;
 
-	constructor() { //принимать список продуктов
+	constructor() {
 		this.template = document.getElementById('card-basket');
 	}
 	render(data: { cart: Cart }): HTMLElement {

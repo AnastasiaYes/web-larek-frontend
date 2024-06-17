@@ -13,7 +13,6 @@ export class Order implements IOrder {
 
 	constructor(private events: IEvents) {}
 
-
 	fillPaymentDetails(payment: string, address: string) {
 		this.payment = payment;
 		this.address = address;
