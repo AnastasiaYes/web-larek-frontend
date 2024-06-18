@@ -3,8 +3,8 @@ import { Product } from '../model/api/Product';
 
 export class CartItemView implements IView {
 	container: HTMLElement;
-	constructor(template: HTMLElement) {
-		this.container = template.querySelector('button').cloneNode(true) as HTMLElement;
+	constructor(template: HTMLTemplateElement) {
+		this.container = template.content.firstElementChild.cloneNode(true) as HTMLElement;
 	}
 	render(data: { product: Product }): HTMLElement {
 		const container = this.container.cloneNode(true) as HTMLElement;

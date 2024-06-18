@@ -5,8 +5,8 @@ export const CatalogItemAddToCartEvent = 'ui:catalog:add-to-cart';
 
 export class CatalogProductView implements IView {
 	container: HTMLElement;
-	constructor(template: HTMLElement) {
-		this.container = template.querySelector('.card_full');
+	constructor(template: HTMLTemplateElement) {
+		this.container = template.content.firstElementChild as HTMLElement;
 	}
 
 	render(data: { product: Product }): HTMLElement {

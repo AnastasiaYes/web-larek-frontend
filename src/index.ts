@@ -30,9 +30,10 @@ api.get('/product/').then((resp: ProductList<IProductDetails>) => {
 
 events.on(CatalogEventItemAdded, () => {
 	const view = new CatalogView(document.querySelector('.gallery'));
+	const template = document.getElementById('card-catalog') as HTMLTemplateElement;
 	const catalogItems = catalog.items.map(
 		product => {
-			return new CatalogItemView(document.getElementById('card-catalog'), events).render({ product });
+			return new CatalogItemView(template, events).render({ product });
 		}
 	);
 	view.render({ items: catalogItems });

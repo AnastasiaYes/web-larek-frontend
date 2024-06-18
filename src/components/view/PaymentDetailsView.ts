@@ -5,7 +5,7 @@ export const UiOrderPaymentDetailsFilled =  'ui:order:payment-details-filled';
 export class PaymentDetailsView implements IView {
 	container: HTMLElement;
 	constructor(private events: IEvents) {
-		this.container = document.querySelector('#order > .form');
+		this.container = (document.querySelector('#order') as HTMLTemplateElement).content.firstElementChild as HTMLElement;
 	}
 
 	render(): HTMLElement {

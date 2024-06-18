@@ -12,6 +12,7 @@ export class Catalog {
 
 	constructor(events: IEvents) {
 		this.events = events;
+		this.items = [];
 	}
 
 	addItem(product: IProductDetails) { // добавление в каталог

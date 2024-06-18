@@ -4,10 +4,10 @@ import { CartItemView } from './CartItemView';
 import { Cart } from '../model/Cart';
 
 export class CartView implements IView {
-	template: HTMLElement;
+	template: HTMLTemplateElement;
 
 	constructor() {
-		this.template = document.getElementById('card-basket');
+		this.template = document.getElementById('card-basket') as HTMLTemplateElement;
 	}
 	render(data: { cart: Cart }): HTMLElement {
 		let orderAmount = 0;

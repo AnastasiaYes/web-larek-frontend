@@ -30,5 +30,4 @@ export class Order implements IOrder {
 	protected _contactFilled(email:string, phone:string) {
 		this.events.emit(OrderContactsFilled, { email, phone })
 	}
-
 }
