@@ -3,15 +3,20 @@ import { Product } from '../model/api/Product';
 
 export class CartItemView implements IView {
 	container: HTMLElement;
+	category: HTMLElement;
+	title: HTMLElement;
+	price: HTMLElement;
 	constructor(template: HTMLTemplateElement) {
 		this.container = template.content.firstElementChild.cloneNode(true) as HTMLElement;
+		this.category = this.container.querySelector('.card__category');
+		this.title = this.container.querySelector('.card__title');
+		this.price = this.container.querySelector('.card__price');
 	}
 	render(data: { product: Product }): HTMLElement {
-		const container = this.container.cloneNode(true) as HTMLElement;
-		container.querySelector('.card__category').textContent = data.product.category;
-		container.querySelector('.card__title').textContent = data.product.title;
-		container.querySelector('.card__price').textContent = String(data.product.price);
+		this.category.textContent = data.product.category;
+		this.title.textContent = data.product.title;
+		this.price.textContent = String(data.product.price);
 
-		return container;
+		return this.container;
 	}
 }

@@ -1,26 +1,36 @@
 import { IView } from '../../types';
 import { Product } from '../model/api/Product';
+import { IEvents } from '../base/events';
 
 export const CatalogItemAddToCartEvent = 'ui:catalog:add-to-cart';
 
 export class CatalogProductView implements IView {
 	container: HTMLElement;
-	constructor(template: HTMLTemplateElement) {
-		this.container = template.content.firstElementChild as HTMLElement;
+	category: HTMLElement;
+	title: HTMLElement;
+	text: HTMLElement;
+	price: HTMLElement;
+	button: HTMLElement;
+
+	constructor(template: HTMLTemplateElement, private events: IEvents) {
+		this.container = template.content.firstElementChild.cloneNode(true) as HTMLElement;
+		this.category = this.container.querySelector('.card__category');
+		this.title = this.container.querySelector('.card__title');
+		this.text = this.container.querySelector('.card__text');
+		this.price = this.container.querySelector('.card__price');
+		this.button = this.container.querySelector('.card__button');
 	}
 
 	render(data: { product: Product }): HTMLElement {
-		const container = this.container.cloneNode(true) as HTMLElement;
 
-		container.querySelector('.card__category').textContent = data.product.category;
-		container.querySelector('.card__title').textContent = data.product.title;
-		container.querySelector('.card__text').textContent = data.product.description;
-		container.querySelector('.card__price').textContent = String(data.product.price);
+		this.category.textContent = data.product.category;
+		this.title.textContent = data.product.title;
+		this.text.textContent = data.product.description;
+		this.price.textContent = String(data.product.price);
 
-		const button = container.querySelector('.card__button');
-		button.addEventListener('click', function() {
+		this.button.onclick = () => {
 			this.events.emit(CatalogItemAddToCartEvent, {product: Product})
-		})
- 		return container;
+		};
+ 		return this.container;
 	}
 }

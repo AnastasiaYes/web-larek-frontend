@@ -40,7 +40,7 @@ events.on(CatalogEventItemAdded, () => {
 });
 
 events.on(CatalogItemOpenEvent, (data:{product: Product}) => {
-	const view = new CatalogProductView(document.querySelector('#card-preview'));
+	const view = new CatalogProductView(document.querySelector('#card-preview'), events);
 	view.render(data); //todo render html
 });
 
@@ -51,7 +51,7 @@ events.on(CatalogItemAddToCartEvent, (data:{product: Product}) => {
 events.on(CartEventItemRemove, (data:{product: Product}) => {
 	cart.addItem(data.product);
 	const view = new CartView()
-	view.render({cart});
+	view.render({cart, totalAmount: cart.totalAmount});
 });
 
 events.on(UiOrderPaymentDetailsFilled, (data:{payment: string, address: string}) => {

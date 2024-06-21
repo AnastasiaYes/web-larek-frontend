@@ -9,10 +9,7 @@ export class CartView implements IView {
 	constructor() {
 		this.template = document.getElementById('card-basket') as HTMLTemplateElement;
 	}
-	render(data: { cart: Cart }): HTMLElement {
-		let orderAmount = 0;
-		data.cart.items.forEach(p => orderAmount += p.price);
-
+	render(data: { cart: Cart, totalAmount: number }): HTMLElement {
 		const views = data.cart.items.map(p => new CartItemView(this.template).render({product: p}))
 
 		//@todo отрендерить представления, отобразить orderAmount
