@@ -2,6 +2,10 @@ export interface IItemList<T> {
 	total: number;
 	items: T[];
 }
+export interface IItemList<T> {
+	total: number;
+	items: T[];
+}
 
 export interface IProductDetails {
 	id: string;
@@ -37,3 +41,18 @@ export interface IOrderCreateResponse {
 export interface IView {
 	render(data?: any): HTMLElement;
 }
+
+export enum ViewEvents {
+	UiCatalogItemAddToCartEvent = 'ui:catalog:add-to-cart',
+	UiCatalogItemOpenEvent = 'ui:catalog:item-open',
+	UiOrderContactsDetailsFilled = 'ui:order:contacts-details-filled',
+	UiOrderPaymentDetailsFilled =  'ui:order:payment-details-filled'
+};
+export enum ModelEvents {
+	CartEventItemRemove = 'cart:item-removed',
+	CartEventItemAdded = 'cart:item-added',
+	CatalogEventItemAdded = 'catalog:item-added',
+	OrderPaymentDetailsFilled = 'order:payment-details-filled',
+	OrderContactsFilled = 'order:contacts-filled',
+	OrderCreated = 'order:created'
+};

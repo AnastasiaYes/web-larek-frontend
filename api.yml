@@ -4,7 +4,7 @@ servers:
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/FenixDeveloper/yp-afisha-api/1.0.0
 info:
-  description: Yandex Practicum «Film!» project api
+  description: Yandex Practicum «Film!» project api_todo_remove
   version: "1.0.0"
   title: Afisha Api
   contact:

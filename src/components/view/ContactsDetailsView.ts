@@ -1,7 +1,5 @@
-import { IView } from '../../types';
+import { IView, ViewEvents } from '../../types';
 import { IEvents } from '../base/events';
-
-export const UiOrderContactsDetailsFilled = 'ui:order:contacts-details-filled';
 
 export class ContactsDetailsView implements IView {
 	container: HTMLElement;
@@ -12,7 +10,7 @@ export class ContactsDetailsView implements IView {
 
 	render(): HTMLElement {
 		this.container.addEventListener('submit', () => {
-			this.events.emit(UiOrderContactsDetailsFilled, {});
+			this.events.emit(ViewEvents.UiOrderContactsDetailsFilled, {});
 		});
 
 		return this.container as HTMLElement;

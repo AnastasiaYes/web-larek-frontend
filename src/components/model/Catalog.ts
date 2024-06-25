@@ -1,10 +1,6 @@
-//все что находится в папке api - это классы, которые используются в качестве ответов от внешнего сервиса.
-// Все что не в апи - используется нашим проектом - это наши модели, у которых есть какой-то функцционал, в то время как сущности апи не имеют функций, они только передают значения
-
 import { IProductDetails } from '../../types';
 import { IEvents } from '../base/events';
-
-export const CatalogEventItemAdded = 'catalog:item-added';
+import { ModelEvents } from '../../types'
 
 export class Catalog {
 	items: IProductDetails[];
@@ -32,6 +28,6 @@ export class Catalog {
 		}
 
 	protected _itemAdded(product: IProductDetails) {
-		this.events.emit(CatalogEventItemAdded, { product })
+		this.events.emit(ModelEvents.CatalogEventItemAdded, { product })
 	}
 }

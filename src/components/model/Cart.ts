@@ -1,10 +1,6 @@
-//cart содержит список товаров и их количество
-// может сумму и ещё чтото хз
 import { IProductDetails } from '../../types';
 import { IEvents } from '../base/events';
-
-export const CartEventItemAdded = 'cart:item-added';
-export const CartEventItemRemove = 'cart:item-removed'
+import {ModelEvents} from '../../types'
 
 export class Cart {
 	items: IProductDetails[];
@@ -24,7 +20,7 @@ export class Cart {
 		this._itemAdded(product)
 	}
 	protected _itemAdded(product: IProductDetails) {
-		this.events.emit(CartEventItemAdded, { product })
+		this.events.emit(ModelEvents.CartEventItemAdded, { product })
 	}
 	//@todo создать функцию removeItem, которая принимает removeId: string и удаляет из items тот продукт, у которого id === removeId + надо создать новое событие о том, что продукт был удален. его можно назвать cart:item-remove - 7 строка этого файла
 	removeItem(removeId: string) {
@@ -42,6 +38,6 @@ export class Cart {
 		this.items = data;
 	}
 	protected _itemRemove (product: IProductDetails) {
-		this.events.emit(CartEventItemRemove, { product })
+		this.events.emit(ModelEvents.CartEventItemRemove, { product })
 	}
 }

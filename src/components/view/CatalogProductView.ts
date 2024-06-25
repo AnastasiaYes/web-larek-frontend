@@ -1,8 +1,6 @@
-import { IView } from '../../types';
-import { Product } from '../model/api/Product';
+import { IProductDetails, IView } from '../../types';
 import { IEvents } from '../base/events';
-
-export const CatalogItemAddToCartEvent = 'ui:catalog:add-to-cart';
+import { ViewEvents } from '../../types'
 
 export class CatalogProductView implements IView {
 	container: HTMLElement;
@@ -21,7 +19,7 @@ export class CatalogProductView implements IView {
 		this.button = this.container.querySelector('.card__button');
 	}
 
-	render(data: { product: Product }): HTMLElement {
+	render(data: { product: IProductDetails }): HTMLElement {
 
 		this.category.textContent = data.product.category;
 		this.title.textContent = data.product.title;
@@ -29,7 +27,7 @@ export class CatalogProductView implements IView {
 		this.price.textContent = String(data.product.price);
 
 		this.button.onclick = () => {
-			this.events.emit(CatalogItemAddToCartEvent, {product: Product})
+			this.events.emit(ViewEvents.UiCatalogItemAddToCartEvent, {product: data.product})
 		};
  		return this.container;
 	}

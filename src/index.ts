@@ -1,18 +1,15 @@
 import './scss/styles.scss';
 import { Api } from './components/base/api';
-import { Catalog, CatalogEventItemAdded } from './components/model/Catalog';
+import { Catalog} from './components/model/Catalog';
 import { EventEmitter } from './components/base/events';
-import { ProductList } from './components/model/api/ProductList';
-import { IProductDetails } from './types';
+import { IItemList, IProductDetails, ModelEvents, ViewEvents } from './types';
 import { CatalogView } from './components/view/CatalogView';
-import { CatalogItemOpenEvent, CatalogItemView } from './components/view/CatalogItemView';
-import { CatalogItemAddToCartEvent, CatalogProductView } from './components/view/CatalogProductView';
-import { Product } from './components/model/api/Product';
-import { Cart, CartEventItemRemove } from './components/model/Cart';
+import { CatalogItemView } from './components/view/CatalogItemView';
+import { CatalogProductView } from './components/view/CatalogProductView';
+import { Cart } from './components/model/Cart';
 import { CartView } from './components/view/CartView';
-import { UiOrderPaymentDetailsFilled } from './components/view/PaymentDetailsView';
-import { Order, OrderContactsFilled, OrderPaymentDetailsFilled } from './components/model/Order';
-import { ContactsDetailsView, UiOrderContactsDetailsFilled } from './components/view/ContactsDetailsView';
+import { Order } from './components/model/Order';
+import { ContactsDetailsView } from './components/view/ContactsDetailsView';
 import { SuccessfulSendingView } from './components/view/SuccessfulSendingView';
 
 const api = new Api(process.env.API_ORIGIN);
@@ -20,7 +17,16 @@ const events = new EventEmitter();
 const catalog = new Catalog(events);
 const order = new Order(events);
 const cart = new Cart(events);
-api.get('/product/').then((resp: ProductList<IProductDetails>) => {
+const cartView = new CartView();
+const contactsDetailsView = new ContactsDetailsView(events);
+const successfulSendingView = new SuccessfulSendingView();
+const productDetailsView = new CatalogProductView(document.querySelector('#card-preview'), events);
+const galleryProductView = new CatalogView(document.querySelector('.gallery'));
+const cardCatalogTemplate = document.getElementById('card-catalog') as HTMLTemplateElement;
+const catalogItem = new CatalogItemView(cardCatalogTemplate, events);
+
+
+api.get('/product/').then((resp: IItemList<IProductDetails>) => {
 	resp.items.forEach(product => catalog.addItem(product));
 })
 	.catch(error => {
@@ -28,43 +34,38 @@ api.get('/product/').then((resp: ProductList<IProductDetails>) => {
 		console.error('Произошла ошибка при получении данных о продукте:', error);
 	});
 
-events.on(CatalogEventItemAdded, () => {
-	const view = new CatalogView(document.querySelector('.gallery'));
-	const template = document.getElementById('card-catalog') as HTMLTemplateElement;
+events.on(ModelEvents.CatalogEventItemAdded, () => {
 	const catalogItems = catalog.items.map(
 		product => {
-			return new CatalogItemView(template, events).render({ product });
+			return catalogItem.render({ product });
 		}
 	);
-	view.render({ items: catalogItems });
+	galleryProductView.render({ items: catalogItems });
 });
 
-events.on(CatalogItemOpenEvent, (data:{product: Product}) => {
-	const view = new CatalogProductView(document.querySelector('#card-preview'), events);
-	view.render(data); //todo render html
+events.on(ViewEvents.UiCatalogItemOpenEvent, (data:{product: IProductDetails}) => {
+	productDetailsView.render(data); //todo render html
 });
 
-events.on(CatalogItemAddToCartEvent, (data:{product: Product}) => {
+events.on(ViewEvents.UiCatalogItemAddToCartEvent, (data:{product: IProductDetails}) => {
 	cart.addItem(data.product);
 });
 
-events.on(CartEventItemRemove, (data:{product: Product}) => {
+events.on(ModelEvents.CartEventItemRemove, (data:{product: IProductDetails}) => {
 	cart.addItem(data.product);
-	const view = new CartView()
-	view.render({cart, totalAmount: cart.totalAmount});
+	cartView.render({cart, totalAmount: cart.totalAmount});
 });
 
-events.on(UiOrderPaymentDetailsFilled, (data:{payment: string, address: string}) => {
+events.on(ViewEvents.UiOrderPaymentDetailsFilled, (data:{payment: string, address: string}) => {
 	order.fillPaymentDetails(data.payment, data.address);
 })
-events.on(OrderPaymentDetailsFilled, () => {
-	const view = new ContactsDetailsView(events);
-	view.render()
+events.on(ModelEvents.OrderPaymentDetailsFilled, () => {
+	contactsDetailsView.render()
 })
-events.on(UiOrderContactsDetailsFilled, (data:{payment: string, address: string}) => {
+events.on(ViewEvents.UiOrderContactsDetailsFilled, (data:{payment: string, address: string}) => {
 	order.fillPaymentDetails(data.payment, data.address);
 })
-events.on(OrderContactsFilled, () => {
+events.on(ModelEvents.OrderContactsFilled, () => {
 	api.post('/order', {
 		"payment": order.payment,
 		"email": order.email,
@@ -73,8 +74,7 @@ events.on(OrderContactsFilled, () => {
 		"total": cart.totalAmount,
 		"items": cart.items.map(p => p.id),
 	}).then(() => {
-		const view = new SuccessfulSendingView();
-		view.render({totalAmount: cart.totalAmount})
+		successfulSendingView.render({totalAmount: cart.totalAmount})
 	})
 	.catch(error => {
 		alert('Произошла ошибка при создании заказа');

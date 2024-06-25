@@ -1,9 +1,7 @@
 import { IOrder } from '../../types';
 import { IEvents } from '../base/events';
+import { ModelEvents } from '../../types'
 
-export const OrderPaymentDetailsFilled = 'order:payment-details-filled';
-export const OrderContactsFilled = 'order:contacts-filled';
-export const OrderCreated = 'order:created';
 export class Order implements IOrder {
 	payment: string
 	email: string
@@ -19,7 +17,7 @@ export class Order implements IOrder {
 		this._paymentDetailsFilled(payment, address)
 	}
 	protected _paymentDetailsFilled(payment:string, address:string) {
-		this.events.emit(OrderPaymentDetailsFilled, { payment, address })
+		this.events.emit(ModelEvents.OrderPaymentDetailsFilled, { payment, address })
 	}
 
 	fillContactsDetails(email: string, phone: string) {
@@ -28,6 +26,6 @@ export class Order implements IOrder {
 		this._contactFilled(email, phone)
 	}
 	protected _contactFilled(email:string, phone:string) {
-		this.events.emit(OrderContactsFilled, { email, phone })
+		this.events.emit(ModelEvents.OrderContactsFilled, { email, phone })
 	}
 }
