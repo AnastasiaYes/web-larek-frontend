@@ -25,17 +25,21 @@ export class Cart {
 	//@todo создать функцию removeItem, которая принимает removeId: string и удаляет из items тот продукт, у которого id === removeId + надо создать новое событие о том, что продукт был удален. его можно назвать cart:item-remove - 7 строка этого файла
 	removeItem(removeId: string) {
 		const data: IProductDetails[] = [];
+		let target: IProductDetails|null = null;
 		for (let i = 0; i < this.items.length; i++) {
 			const product = this.items[i];
 			if (product.id !== removeId) {
 				data.push(product);
 				continue;
 			}
+			target = product;
 			this.totalAmount -= product.price;
-			this._itemRemove(product)
 		}
 
 		this.items = data;
+		if (target !== null) {
+			this._itemRemove(target)
+		}
 	}
 	protected _itemRemove (product: IProductDetails) {
 		this.events.emit(ModelEvents.CartEventItemRemove, { product })

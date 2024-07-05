@@ -6,13 +6,15 @@ export class ContactsDetailsView implements IView {
 
 	constructor(private events: IEvents) {
 		this.container = (document.querySelector('#contacts') as HTMLTemplateElement).content.firstElementChild as HTMLElement;
+
+		this.container.addEventListener('submit', (e) => {
+			//e.preventDefault();
+			//найти имейл и телефон и передать в событие
+			this.events.emit(ViewEvents.UiOrderContactsDetailsFilled, {});
+		});
 	}
 
 	render(): HTMLElement {
-		this.container.addEventListener('submit', () => {
-			this.events.emit(ViewEvents.UiOrderContactsDetailsFilled, {});
-		});
-
 		return this.container as HTMLElement;
 	}
 }

@@ -1,5 +1,6 @@
 import { IProductDetails, IView, ViewEvents } from '../../types';
 import { IEvents } from '../base/events';
+import { makeLogger } from 'ts-loader/dist/logger';
 
 export class CatalogItemView implements IView {
 	container: HTMLElement;
@@ -19,7 +20,8 @@ export class CatalogItemView implements IView {
 		this.title.textContent = data.product.title;
 		this.price.textContent = String(data.product.price);
 
-		this.container.addEventListener('click', () => {
+		this.container.addEventListener('click', (e) => {
+			e.stopPropagation();
 			this.events.emit(ViewEvents.UiCatalogItemOpenEvent, { product: data.product })
 		})
 

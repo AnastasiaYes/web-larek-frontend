@@ -45,8 +45,11 @@ export interface IView {
 export enum ViewEvents {
 	UiCatalogItemAddToCartEvent = 'ui:catalog:add-to-cart',
 	UiCatalogItemOpenEvent = 'ui:catalog:item-open',
+	UiCartItemRemove = 'ui:cart:remove--item',
+	UiOnOrder = 'ui:on-order',
 	UiOrderContactsDetailsFilled = 'ui:order:contacts-details-filled',
-	UiOrderPaymentDetailsFilled =  'ui:order:payment-details-filled'
+	UiOrderPaymentDetailsFilled =  'ui:order:payment-details-filled',
+	UiModalClose =  'ui:modal:close',
 };
 export enum ModelEvents {
 	CartEventItemRemove = 'cart:item-removed',
@@ -54,5 +57,6 @@ export enum ModelEvents {
 	CatalogEventItemAdded = 'catalog:item-added',
 	OrderPaymentDetailsFilled = 'order:payment-details-filled',
 	OrderContactsFilled = 'order:contacts-filled',
+	OrderContactsFilledFailed = 'order:contacts-filled-failed',
 	OrderCreated = 'order:created'
 };
