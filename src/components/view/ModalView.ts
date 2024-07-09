@@ -1,4 +1,4 @@
-import { IView, ViewEvents } from '../../types';
+import { IView, ModelEvents, ViewEvents } from '../../types';
 import { IEvents } from '../base/events';
 import * as querystring from 'querystring';
 import * as trace_events from 'trace_events';
@@ -32,4 +32,5 @@ export class ModalView implements IView {
 
 		return this.container;
 	}
+
 }

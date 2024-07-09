@@ -10,14 +10,12 @@ export class CartView implements IView {
 	itemTemplate: HTMLTemplateElement;
 	title: HTMLElement;
 	price: HTMLElement;
-	basketButton: HTMLElement;
 	orderButton: HTMLElement;
 	basketList: HTMLElement;
 
 	constructor(private events: IEvents) {
 		this.container = (document.getElementById('basket') as HTMLTemplateElement).content.firstElementChild as HTMLElement;
 		this.itemTemplate = document.getElementById('card-basket').cloneNode(true) as HTMLTemplateElement;
-		this.basketButton = this.container.querySelector('.basket__button');
 		this.price = this.container.querySelector('.basket__price');
 		this.basketList = this.container.querySelector('.basket__list');
 		this.orderButton = this.container.querySelector('.basket__button');
@@ -34,6 +32,12 @@ export class CartView implements IView {
 		views.forEach(view => {
 			this.basketList.appendChild(view);
 		});
+
+		if (views.length !== 0) {
+			this.orderButton.removeAttribute('disabled');
+		} else {
+			this.orderButton.setAttribute('disabled', 'true');
+		}
 
 		this.price.textContent = String(data.cart.totalAmount);
 

@@ -1,5 +1,5 @@
 import { IProductDetails, IView, ViewEvents } from '../../types';
-import { EventEmitter, IEvents } from '../base/events';
+import { IEvents } from '../base/events';
 
 export class CartItemView implements IView {
 	container: HTMLElement;

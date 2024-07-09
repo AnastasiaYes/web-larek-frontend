@@ -1,4 +1,4 @@
-import { IProductDetails } from '../../types';
+import { IItemList, IProductDetails } from '../../types';
 import { IEvents } from '../base/events';
 import { ModelEvents } from '../../types'
 
@@ -11,12 +11,11 @@ export class Catalog {
 		this.items = [];
 	}
 
-	addItem(product: IProductDetails) { // добавление в каталог
-		this.items.push(product);
-		this._itemAdded(product);
+	addItems(products: IProductDetails[]) { // добавление в каталог
+		products.forEach(product => {this.items.push(product)});
+		this._itemAdded();
 	}
 
-	//@todo получение продукта
 		getProduct(id: string) {
 			for (let i = 0; i < this.items.length; i++) {
 				const product = this.items[i];
@@ -27,7 +26,7 @@ export class Catalog {
 			return null;
 		}
 
-	protected _itemAdded(product: IProductDetails) {
-		this.events.emit(ModelEvents.CatalogEventItemAdded, { product })
+	protected _itemAdded() {
+		this.events.emit(ModelEvents.CatalogEventItemsAdded)
 	}
 }

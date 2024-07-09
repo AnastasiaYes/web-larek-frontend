@@ -48,15 +48,30 @@ export enum ViewEvents {
 	UiCartItemRemove = 'ui:cart:remove--item',
 	UiOnOrder = 'ui:on-order',
 	UiOrderContactsDetailsFilled = 'ui:order:contacts-details-filled',
+	UiContactsDetailsCleared = 'ui:contacts-details-cleared',
 	UiOrderPaymentDetailsFilled =  'ui:order:payment-details-filled',
+	UiPaymentDetailsCleared = 'ui:payment-details-cleared',
+	UiOrderOpenContactsDetails = 'ui:order:open-contacts-details',
+	UiOrderOpenSuccessfulModal = 'ui:order:open-successful-modal',
 	UiModalClose =  'ui:modal:close',
 };
 export enum ModelEvents {
 	CartEventItemRemove = 'cart:item-removed',
 	CartEventItemAdded = 'cart:item-added',
-	CatalogEventItemAdded = 'catalog:item-added',
+	CartCleared = 'cart:cleared',
+	CatalogEventItemsAdded = 'catalog:item-added',
 	OrderPaymentDetailsFilled = 'order:payment-details-filled',
 	OrderContactsFilled = 'order:contacts-filled',
 	OrderContactsFilledFailed = 'order:contacts-filled-failed',
-	OrderCreated = 'order:created'
+	OrderPaymentDetailsFillFailed = 'order:payment-filled-failed',
 };
+
+export type OrderContactsFilledFailed = {
+	field: 'phone' | 'email',
+	message: string
+};
+
+export type OrderPaymentDetailsFillFailed = {
+	field: 'payment' | 'address',
+	message: string
+}
