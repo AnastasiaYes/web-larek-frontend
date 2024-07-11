@@ -20,7 +20,25 @@ export class CatalogItemView implements IView {
 		this.category.textContent = data.product.category;
 		this.image.src = process.env.CONTENT_URL + data.product.image;
 		this.title.textContent = data.product.title;
-		this.price.textContent = String(data.product.price);
+		this.price.textContent = String(data.product.price ?? 'бесценен');
+
+		switch (this.category.textContent) {
+			case 'софт-скил':
+				this.category.classList.add('card__category_soft');
+				break;
+			case 'другое':
+				this.category.classList.add('card__category_other');
+				break;
+			case 'хард-скил':
+				this.category.classList.add('card__category_hard');
+				break;
+			case 'дополнительное':
+				this.category.classList.add('card__category_additional');
+				break;
+			case 'кнопка':
+				this.category.classList.add('card__category_button');
+				break;
+		}
 
 		this.container.addEventListener('click', (e) => {
 			e.stopPropagation();

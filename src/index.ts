@@ -65,8 +65,8 @@ events.on(ViewEvents.UiCatalogItemOpenEvent, (data:{product: IProductDetails}) =
 	modal.replaceWith(modalView.render({ element: productDetailsModalElement}))
 });
 
-events.on(ViewEvents.UiCartItemRemove, (data:{product: IProductDetails}) => {
-	cart.removeItem(data.product.id)
+events.on(ViewEvents.UiCartItemRemove, (data:{index: number}) => {
+	cart.removeItem(data)
 });
 
 events.on(ViewEvents.UiOnOrder, () => {
@@ -104,6 +104,10 @@ events.on(ViewEvents.UiModalClose, (modalElement?:HTMLElement) => {
 events.on(ViewEvents.UiCatalogItemAddToCartEvent, (data:{product: IProductDetails}) => {
 	cart.addItem(data.product);
 	events.emit(ViewEvents.UiModalClose, modalView.container)
+});
+
+events.on(ViewEvents.UiCatalogItemAddError, (data:{message: string}) => {
+	alert(data.message);
 });
 
 events.on(ModelEvents.CartEventItemAdded, () => {

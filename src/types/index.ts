@@ -13,7 +13,7 @@ export interface IProductDetails {
 	image: string;
 	title: string;
 	category: string;
-	price: number;
+	price: number|null;
 }
 
 export interface IOrderCreateRequest {
@@ -44,6 +44,7 @@ export interface IView {
 
 export enum ViewEvents {
 	UiCatalogItemAddToCartEvent = 'ui:catalog:add-to-cart',
+	UiCatalogItemAddError = "ui:catalog:error-add-to-cart",
 	UiCatalogItemOpenEvent = 'ui:catalog:item-open',
 	UiCartItemRemove = 'ui:cart:remove--item',
 	UiOnOrder = 'ui:on-order',

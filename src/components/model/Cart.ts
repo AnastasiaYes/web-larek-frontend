@@ -22,22 +22,22 @@ export class Cart {
 		this.events.emit(ModelEvents.CartEventItemAdded, { product })
 	}
 
-	removeItem(removeId: string) {
-		const data: IProductDetails[] = [];
-		let target: IProductDetails|null = null;
+	removeItem(data:{index: number}) {
+		const list: IProductDetails[] = [];
+		let removedProduct: IProductDetails | null = null;
 		for (let i = 0; i < this.items.length; i++) {
 			const product = this.items[i];
-			if (product.id !== removeId) {
-				data.push(product);
+			if (data.index === i) {
+				removedProduct = product;
+				this.totalAmount -= product.price;
 				continue;
 			}
-			target = product;
-			this.totalAmount -= product.price;
+			list.push(product);
 		}
+		this.items = list;
 
-		this.items = data;
-		if (target !== null) {
-			this._itemRemove(target)
+		if (removedProduct !== null) {
+			this._itemRemove(removedProduct);
 		}
 	}
 	protected _itemRemove (product: IProductDetails) {

@@ -28,7 +28,7 @@ export class CartView implements IView {
 	render(data: {cart: Cart}): HTMLElement {
 		this.basketList.innerHTML = '';
 
-		const views = data.cart.items.map(p => new CartItemView(this.itemTemplate, this.events).render({product: p}));
+		const views = data.cart.items.map((p, i) => new CartItemView(this.itemTemplate, this.events).render({product: p, index: i}));
 		views.forEach(view => {
 			this.basketList.appendChild(view);
 		});
